@@ -1,0 +1,259 @@
+Prompt 1: Step 1 – Extract Your Discoveries
+Markdown
+We have completed **Phase 1: Incubation**. All incubation deliverables are ready (prototype, discovery-log.md, mcp_server.py, agent-skills.md, customer-success-fte-spec.md).
+
+Now begin the **Transition Phase** with **Step 1: Extract Your Discoveries**.
+
+**Exact Requirement:**
+"Before writing any production code, document everything you learned during incubation.
+Create specs/transition-checklist.md"
+
+Create the file `production/specs/transition-checklist.md` using the exact structure from the hackathon:
+
+# Transition Checklist: General → Custom Agent
+
+## 1. Discovered Requirements
+List every requirement discovered during incubation:
+- [ ] Requirement 1: ...
+- [ ] Requirement 2: ...
+
+## 2. Working Prompts
+### System Prompt That Worked:
+[Paste the best system prompt from incubation here]
+
+### Tool Descriptions That Worked:
+[Paste effective tool descriptions]
+
+## 3. Edge Cases Found
+| Edge Case | How It Was Handled | Test Case Needed |
+|-----------|--------------------|------------------|
+| ...       | ...                | Yes/No           |
+
+## 4. Response Patterns
+- Email: [description]
+- WhatsApp: [description]
+- Web Form: [description]
+
+## 5. Escalation Rules (Finalized)
+- Trigger 1: ...
+- Trigger 2: ...
+
+## 6. Performance Baseline
+- Average response time: ___ seconds
+- Accuracy on test set: ___%
+- Escalation rate: ___%
+
+Fill this document thoroughly based on all discoveries from the Incubation phase (Exercises 1.1 to 1.5). Be detailed and honest about what worked, what didn't, and what needs to be improved in production.
+
+After creating the file, show me the complete `transition-checklist.md` content.
+
+Then ask: “Shall I proceed to Step 2: Map Prototype Code to Production Components?”
+
+Start with Step 1 now.
+
+Prompt 2: Step 2 – Map Prototype Code to Production Components
+MarkdownWe
+
+We have completed Step 1 (Extract Your Discoveries) and have `production/specs/transition-checklist.md`.
+
+Now proceed to **Step 2: Map Prototype Code to Production Components**.
+
+**Exact Requirement:**
+"Your incubation code needs to be restructured. Here’s how each piece maps:
+[Show the Code Mapping Table from the hackathon]"
+
+Create the full production folder structure exactly as specified:
+
+production/
+├── agent/
+│   ├── init.py
+│   ├── customer_success_agent.py
+│   ├── tools.py
+│   ├── prompts.py
+│   └── formatters.py
+├── channels/
+│   ├── init.py
+│   ├── gmail_handler.py
+│   ├── whatsapp_handler.py
+│   └── web_form_handler.py
+├── workers/
+│   ├── init.py
+│   ├── message_processor.py
+│   └── metrics_collector.py
+├── api/
+│   ├── init.py
+│   └── main.py
+├── database/
+│   ├── schema.sql
+│   ├── queries.py
+│   └── migrations/
+├── tests/
+│   ├── test_transition.py
+│   └── test_agent.py
+├── k8s/
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── specs/
+└── transition-checklist.md   # already exists
+
+
+For each folder/file, create placeholder files with clear comments explaining what will go there (based on the mapping table in the hackathon document).
+
+Also create a file `production/specs/code-mapping.md` that documents how each incubation component maps to the production structure.
+
+After setup, show me:
+- The complete folder structure you created
+- Content of `code-mapping.md`
+- Brief explanation of the mapping
+
+Then ask: “Shall I proceed to Step 3: Transform Your MCP Tools to Production Tools?”
+
+Start Step 2 now.
+
+Prompt 3: Step 3 – Transform Your MCP Tools to Production Tools
+Markdown
+
+We have completed Steps 1 and 2. The production folder structure is ready.
+
+Now do **Step 3: Transform Your MCP Tools to Production Tools**.
+
+**Key Differences (follow exactly):**
+- MCP (Incubation) → OpenAI Agents SDK @function_tool (Production)
+- Loose inputs → Pydantic BaseModel with strict typing
+- No error handling → Full try/except with graceful fallbacks
+- In-memory → Will connect to PostgreSQL + vector search later
+- Simple docstrings → Detailed, high-quality docstrings for LLM
+
+Create `production/agent/tools.py`
+
+Transform all tools from the MCP server (`search_knowledge_base`, `create_ticket`, `get_customer_history`, `escalate_to_human`, `send_response`, plus any extras) into proper `@function_tool` decorated functions.
+
+For each tool:
+- Define Pydantic input models (e.g. KnowledgeSearchInput, TicketInput, etc.)
+- Add detailed docstrings explaining when to use and constraints
+- Include proper error handling and logging
+- Make them ready for future database integration
+
+Also create `production/agent/__init__.py` to export the tools.
+
+After implementation, show me the full `tools.py` file.
+
+Demonstrate at least 2 example tool definitions with Pydantic models.
+
+Then ask: “Shall I proceed to Step 4: Transform Your System Prompt?”
+
+Start Step 3 now.
+
+Prompt 4: Step 4 – Transform Your System Prompt
+Markdown
+
+We have completed Step 3 (Tools transformation).
+
+Now do **Step 4: Transform Your System Prompt**.
+
+**Requirement:**
+Transform the working prompt from incubation into a production-grade system prompt with explicit constraints, channel awareness, and strict workflow.
+
+Create the file: `production/agent/prompts.py`
+
+Define a constant `CUSTOMER_SUCCESS_SYSTEM_PROMPT` that includes:
+
+- Clear purpose
+- Channel Awareness section (Email, WhatsApp, Web Form differences)
+- Required Workflow (ALWAYS create_ticket first, then get history, search KB, finally send_response)
+- Hard Constraints (NEVER discuss pricing, refunds, etc.)
+- Escalation Triggers (list them explicitly)
+- Response Quality Standards
+- Context Variables available
+
+Use the example system prompt from the hackathon document as a strong reference, but improve it based on discoveries from incubation.
+
+After creating the file, show me the full prompt content.
+
+Explain how it is stricter and more production-ready than the incubation version.
+
+Then ask: “Shall I proceed to Step 5: Create the Transition Test Suite?”
+
+Start Step 4 now.
+
+Prompt 5: Step 5 – Create the Transition Test Suite
+Markdown
+
+We have completed Step 4 (System Prompt).
+
+Now do **Step 5: Create the Transition Test Suite**.
+
+Create `production/tests/test_transition.py`
+
+The test file must verify that the production agent logic matches the behavior discovered during incubation.
+
+Include tests for:
+- Edge cases found in incubation (empty message, pricing inquiry, angry customer, etc.)
+- Channel-specific response formatting (email detailed vs WhatsApp concise)
+- Correct tool calling order (create_ticket first, send_response last)
+- Knowledge search behavior
+- Cross-channel memory and customer identification
+- Escalation triggers
+
+Use pytest and @pytest.mark.asyncio where needed.
+
+Make the tests comprehensive but focused on transition validation.
+
+After writing the test file, show me the full code.
+
+Then ask: “Shall I proceed to Step 6: The Transition Checklist?”
+
+Start Step 5 now.
+
+Prompt 6: Step 6 – The Transition Checklist
+Markdown
+
+We have completed Step 5 (Transition Test Suite).
+
+Now finish the Transition Phase with **Step 6: The Transition Checklist**.
+
+**Requirement:**
+Use the checklist to ensure nothing is missed before moving to full Specialization.
+
+Create or update `production/specs/transition-checklist.md` (extend the one from Step 1) with these sections:
+
+## Pre-Transition Checklist
+### From Incubation (Must Have)
+- [ ] Working prototype
+- [ ] Documented edge cases (minimum 10)
+- [ ] Working system prompt
+- [ ] MCP tools defined
+- [ ] Channel-specific patterns identified
+- [ ] Escalation rules finalized
+
+### Transition Steps Completed
+- [ ] Production folder structure created
+- [ ] Prompts extracted to prompts.py
+- [ ] MCP tools converted to @function_tool with Pydantic
+- [ ] Error handling added to all tools
+- [ ] Transition test suite created and passing
+- [ ] All transition tests passing
+
+### Ready for Production Build
+- [ ] Database schema designed
+- [ ] Kafka topics defined
+- [ ] Channel handlers outlined
+- [ ] Kubernetes manifests planned
+
+Mark every item as completed with a brief note or link to the relevant file.
+
+At the end, add a clear statement:
+
+"**Transition Phase Complete**  
+All incubation knowledge has been extracted and refactored into production-ready structure.  
+We are now ready for Specialization Phase (Part 2)."
+
+Show me the final `transition-checklist.md`
+
+Then ask: “Transition Phase is complete. Shall I proceed to Part 2: Specialization Phase (starting with Exercise 2.1 Database Schema)?”
+
+Start Step 6 now.
+
+
+
