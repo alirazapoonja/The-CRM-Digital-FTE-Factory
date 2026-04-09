@@ -1,0 +1,209 @@
+Prompt for Exercise 2.1: Database Schema
+MarkdownWe have successfully completed the entire Transition Phase. All transition deliverables are ready.
+
+Now begin **Part 2: Specialization Phase** with **Exercise 2.1: Database Schema – Your CRM System**.
+
+**Exact Requirement:**
+Design and implement the full PostgreSQL schema for production state management with multi-channel support. 
+This database IS your CRM/ticket management system.
+
+Create the file: `production/database/schema.sql`
+
+Use the **exact schema** provided in the hackathon document, including:
+
+- customers table
+- customer_identifiers table (for cross-channel matching)
+- conversations table
+- messages table (with channel tracking)
+- tickets table
+- knowledge_base table (with VECTOR(1536) for pgvector)
+- channel_configs table
+- agent_metrics table
+- All required indexes (especially ivfflat for embeddings)
+
+Add detailed comments at the top explaining that this PostgreSQL schema serves as the complete CRM system.
+
+Also create `production/database/queries.py` with placeholder async functions for common operations (get_or_create_customer, create_ticket_record, store_message, etc.).
+
+After creation, show me:
+- The full content of `schema.sql`
+- The structure of `queries.py`
+
+Then ask: “Shall I proceed to Exercise 2.2: Channel Integrations?”
+
+Start Exercise 2.1 now.
+
+Prompt for Exercise 2.2: Channel Integrations
+MarkdownWe have completed Exercise 2.1 (Database Schema).
+
+Now proceed to **Exercise 2.2: Channel Integrations**.
+
+**Requirements:**
+Build the intake handlers for all three channels.
+
+1. Create `production/channels/gmail_handler.py` with:
+   - GmailHandler class
+   - setup_push_notifications
+   - process_notification
+   - get_message
+   - send_reply (with threading support)
+
+2. Create `production/channels/whatsapp_handler.py` with:
+   - WhatsAppHandler class using Twilio
+   - validate_webhook
+   - process_webhook
+   - send_message
+   - format_response (with message splitting for length limit)
+
+3. Create `production/channels/web_form_handler.py` with:
+   - FastAPI router for /support
+   - SupportFormSubmission Pydantic model with validation
+   - submit_support_form endpoint (publish to Kafka + create ticket)
+   - get_ticket_status endpoint
+
+4. **Mandatory**: Create the complete React/Next.js Web Support Form component in `production/web-form/SupportForm.jsx` exactly as shown in the hackathon document (with validation, success state, ticket ID display, etc.).
+
+After implementing all handlers and the React form, show me:
+- Key parts of each handler file
+- The full React SupportForm component
+
+Then ask: “Shall I proceed to Exercise 2.3: OpenAI Agents SDK Implementation?”
+
+Start Exercise 2.2 now.
+
+Prompt for Exercise 2.3: OpenAI Agents SDK Implementation
+MarkdownWe have completed Exercise 2.2 (Channel Integrations).
+
+Now do **Exercise 2.3: OpenAI Agents SDK Implementation**.
+
+**Requirements:**
+Transform the prototype into a production agent using OpenAI Agents SDK.
+
+Create `production/agent/customer_success_agent.py` with:
+
+- Channel Enum
+- Pydantic input models for all tools (KnowledgeSearchInput, TicketInput, etc.)
+- All @function_tool decorated functions (search_knowledge_base, create_ticket, get_customer_history, escalate_to_human, send_response)
+- Channel-aware response formatting function
+- The main customer_success_agent definition with detailed system prompt (use the prompt from prompts.py)
+
+Make sure:
+- Tools call the database layer when possible
+- send_response handles different channels correctly
+- The agent enforces the required workflow order
+
+Also update `production/agent/tools.py` and `production/agent/prompts.py` if needed.
+
+After implementation, show me the full `customer_success_agent.py` file (or key sections).
+
+Then ask: “Shall I proceed to Exercise 2.4: Unified Message Processor?”
+
+Start Exercise 2.3 now.
+
+Prompt for Exercise 2.4: Unified Message Processor
+MarkdownWe have completed Exercise 2.3 (OpenAI Agents SDK Agent).
+
+Now proceed to **Exercise 2.4: Unified Message Processor**.
+
+Create `production/workers/message_processor.py`
+
+This is the core worker that:
+- Consumes messages from Kafka topic `fte.tickets.incoming`
+- Resolves customer (cross-channel)
+- Gets or creates conversation with memory
+- Stores inbound message
+- Runs the customer_success_agent
+- Stores outbound response and metrics
+- Handles errors gracefully
+
+Include:
+- UnifiedMessageProcessor class
+- resolve_customer method (using email/phone)
+- get_or_create_conversation
+- process_message method
+- handle_error method
+
+Make it fully async and production-ready.
+
+After writing the file, show me the complete code or the most important methods.
+
+Then ask: “Shall I proceed to Exercise 2.5: Kafka Event Streaming?”
+
+Start Exercise 2.4 now.
+
+Prompt for Exercise 2.5: Kafka Event Streaming
+MarkdownWe have completed Exercise 2.4 (Message Processor).
+
+Now do **Exercise 2.5: Kafka Event Streaming**.
+
+Create `production/kafka_client.py` (or inside workers if preferred) with:
+
+- TOPICS dictionary (all 8+ topics defined in the hackathon: tickets_incoming, channel-specific, escalations, metrics, dlq, etc.)
+- FTEKafkaProducer class (async start, stop, publish)
+- FTEKafkaConsumer class (async start, stop, consume)
+
+Use aiokafka library.
+
+Make sure it supports the unified ticket ingestion from all channels.
+
+After implementation, show me the full file.
+
+Then ask: “Shall I proceed to Exercise 2.6: FastAPI Service?”
+
+Start Exercise 2.5 now.
+
+Prompt for Exercise 2.6: FastAPI Service
+MarkdownWe have completed Exercise 2.5 (Kafka).
+
+Now proceed to **Exercise 2.6: FastAPI Service with Channel Endpoints**.
+
+Create `production/api/main.py`
+
+Build a complete FastAPI application that includes:
+
+- CORS middleware
+- Health check endpoint
+- Gmail webhook endpoint (/webhooks/gmail)
+- WhatsApp webhook endpoint (/webhooks/whatsapp) with signature validation
+- WhatsApp status callback
+- Web form router (include from web_form_handler)
+- Conversation lookup and customer lookup endpoints
+- Channel metrics endpoint
+
+Initialize handlers and Kafka producer on startup.
+
+After creating the file, show me the full `main.py` code.
+
+Then ask: “Shall I proceed to Exercise 2.7: Kubernetes Deployment?”
+
+Start Exercise 2.6 now.
+
+Prompt for Exercise 2.7: Kubernetes Deployment
+MarkdownWe have completed Exercise 2.6 (FastAPI Service).
+
+Now finish Specialization Phase with **Exercise 2.7: Kubernetes Deployment**.
+
+Create the full Kubernetes manifests in `production/k8s/` using the exact examples from the hackathon document:
+
+- namespace.yaml
+- configmap.yaml
+- secrets.yaml
+- deployment-api.yaml
+- deployment-worker.yaml
+- service.yaml
+- ingress.yaml
+- hpa.yaml (for both API and worker)
+
+Also create:
+- `production/Dockerfile`
+- `production/docker-compose.yml` (for local development)
+- `production/requirements.txt` with all necessary dependencies
+
+After creating all files, show me:
+- Key parts of the deployments
+- The Dockerfile
+- Summary of how auto-scaling and 24/7 readiness is achieved
+
+Then state:
+
+"**Specialization Phase (Exercises 2.1–2.7) is now complete.**
