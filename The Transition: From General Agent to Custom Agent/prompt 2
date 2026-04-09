@@ -1,5 +1,3 @@
-Prompt 1: Step 1 – Extract Your Discoveries
-Markdown
 We have completed **Phase 1: Incubation**. All incubation deliverables are ready (prototype, discovery-log.md, mcp_server.py, agent-skills.md, customer-success-fte-spec.md).
 
 Now begin the **Transition Phase** with **Step 1: Extract Your Discoveries**.
@@ -52,9 +50,7 @@ Then ask: “Shall I proceed to Step 2: Map Prototype Code to Production Compone
 Start with Step 1 now.
 
 Prompt 2: Step 2 – Map Prototype Code to Production Components
-MarkdownWe
-
-We have completed Step 1 (Extract Your Discoveries) and have `production/specs/transition-checklist.md`.
+MarkdownWe have completed Step 1 (Extract Your Discoveries) and have `production/specs/transition-checklist.md`.
 
 Now proceed to **Step 2: Map Prototype Code to Production Components**.
 
@@ -63,7 +59,6 @@ Now proceed to **Step 2: Map Prototype Code to Production Components**.
 [Show the Code Mapping Table from the hackathon]"
 
 Create the full production folder structure exactly as specified:
-
 production/
 ├── agent/
 │   ├── init.py
@@ -96,9 +91,7 @@ production/
 ├── requirements.txt
 └── specs/
 └── transition-checklist.md   # already exists
-
-
-For each folder/file, create placeholder files with clear comments explaining what will go there (based on the mapping table in the hackathon document).
+textFor each folder/file, create placeholder files with clear comments explaining what will go there (based on the mapping table in the hackathon document).
 
 Also create a file `production/specs/code-mapping.md` that documents how each incubation component maps to the production structure.
 
@@ -112,9 +105,7 @@ Then ask: “Shall I proceed to Step 3: Transform Your MCP Tools to Production T
 Start Step 2 now.
 
 Prompt 3: Step 3 – Transform Your MCP Tools to Production Tools
-Markdown
-
-We have completed Steps 1 and 2. The production folder structure is ready.
+MarkdownWe have completed Steps 1 and 2. The production folder structure is ready.
 
 Now do **Step 3: Transform Your MCP Tools to Production Tools**.
 
@@ -146,9 +137,7 @@ Then ask: “Shall I proceed to Step 4: Transform Your System Prompt?”
 Start Step 3 now.
 
 Prompt 4: Step 4 – Transform Your System Prompt
-Markdown
-
-We have completed Step 3 (Tools transformation).
+MarkdownWe have completed Step 3 (Tools transformation).
 
 Now do **Step 4: Transform Your System Prompt**.
 
@@ -178,9 +167,7 @@ Then ask: “Shall I proceed to Step 5: Create the Transition Test Suite?”
 Start Step 4 now.
 
 Prompt 5: Step 5 – Create the Transition Test Suite
-Markdown
-
-We have completed Step 4 (System Prompt).
+MarkdownWe have completed Step 4 (System Prompt).
 
 Now do **Step 5: Create the Transition Test Suite**.
 
@@ -207,9 +194,7 @@ Then ask: “Shall I proceed to Step 6: The Transition Checklist?”
 Start Step 5 now.
 
 Prompt 6: Step 6 – The Transition Checklist
-Markdown
-
-We have completed Step 5 (Transition Test Suite).
+MarkdownWe have completed Step 5 (Transition Test Suite).
 
 Now finish the Transition Phase with **Step 6: The Transition Checklist**.
 
@@ -252,8 +237,4 @@ We are now ready for Specialization Phase (Part 2)."
 Show me the final `transition-checklist.md`
 
 Then ask: “Transition Phase is complete. Shall I proceed to Part 2: Specialization Phase (starting with Exercise 2.1 Database Schema)?”
-
-Start Step 6 now.
-
-
 
