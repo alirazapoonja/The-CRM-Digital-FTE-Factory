@@ -1,1 +1,100 @@
+You are an expert Agent Factory and senior AI engineering partner. We are starting **Phase 1: Incubation** of "The CRM Digital FTE Factory Final Hackathon 5".
 
+**Objective of this phase (strictly follow this):**
+Build a working prototype of a Customer Success Digital FTE using iterative exploration with me as the Director. 
+At the end of this phase we must have:
+- A functional prototype that can handle customer messages from any channel (email, WhatsApp, web form)
+- Discovery log documenting requirements and patterns found
+- MCP Server exposing at least 5 tools
+- Agent Skills manifest
+- Crystallized specification document
+
+**Project Context:**
+This is a multi-channel Customer Success AI agent for a SaaS company. 
+It must:
+- Answer product questions using provided documentation
+- Accept inquiries from Gmail, WhatsApp, and Web Form
+- Track all interactions with channel metadata
+- Remember conversation history across channels
+- Analyze sentiment and decide when to escalate to human
+- Format responses appropriately per channel (formal & detailed for email, concise & casual for WhatsApp, semi-formal for web)
+
+**Instructions for you:**
+- Act as the "General Agent" / Agent Factory. I will direct you.
+- Work iteratively. After each major step, show me the code/files created, explain what you did, and ask for feedback or approval before moving forward.
+- Always create files in the correct folder structure.
+- Use Python for the prototype.
+
+**Exact Folder Structure to create first:**
+incubation/
+├── context/
+│   ├── company-profile.md
+│   ├── product-docs.md
+│   ├── sample-tickets.json
+│   ├── escalation-rules.md
+│   └── brand-voice.md
+├── src/
+│   ├── agent/
+│   ├── channels/
+│   └── tools/
+├── specs/
+│   └── discovery-log.md
+└── tests/
+text**Step-by-step plan for Phase 1 (follow this order):**
+
+1. **Setup Project Structure**  
+   Create the full folder structure above. Generate realistic placeholder content for all files in `context/` (TechCorp SaaS company selling a project management tool). Make sample-tickets.json contain 30+ realistic multi-channel tickets showing differences between email (long), WhatsApp (short & casual), and web form.
+
+2. **Exercise 1.1 – Initial Exploration**  
+   Analyze the sample tickets. Identify patterns across channels, common question types, escalation signals, and channel-specific behaviors. Document everything in `specs/discovery-log.md`.
+
+3. **Exercise 1.2 – Prototype the Core Loop**  
+   Build a simple Python prototype (`src/agent/core_loop.py`) that:
+   - Takes a customer message + channel metadata
+   - Normalizes the input
+   - Searches product documentation
+   - Generates a helpful response
+   - Formats response based on channel (email vs WhatsApp style)
+   - Decides if escalation is needed
+
+4. **Exercise 1.3 – Add Memory and State**  
+   Extend the prototype to support:
+   - Conversation memory
+   - Cross-channel continuity (using email/phone as customer identifier)
+   - Sentiment tracking
+   - Resolution status
+   - Topic tracking
+
+5. **Exercise 1.4 – Build the MCP Server**  
+   Create `src/tools/mcp_server.py` with at least these 5 tools:
+   - search_knowledge_base(query) 
+   - create_ticket(customer_id, issue, priority, channel)
+   - get_customer_history(customer_id)
+   - escalate_to_human(ticket_id, reason)
+   - send_response(ticket_id, message, channel)
+   
+   Follow the MCP server template style shown in the hackathon document.
+
+6. **Exercise 1.5 – Define Agent Skills**  
+   Create `specs/agent-skills.md` defining:
+   - Knowledge Retrieval Skill
+   - Sentiment Analysis Skill
+   - Escalation Decision Skill
+   - Channel Adaptation Skill
+   - Customer Identification Skill
+
+7. **Final Deliverable**  
+   Create `specs/customer-success-fte-spec.md` using the exact template from the hackathon document (Purpose, Supported Channels, Scope, Tools, Performance Requirements, Guardrails).
+
+**Start immediately with Step 1: Setup Project Structure.**
+
+First, create the complete folder structure and generate initial content for the `context/` folder (especially sample-tickets.json with diverse examples).
+
+Then analyze the sample tickets and begin building `specs/discovery-log.md`.
+
+After each major step, pause and show me:
+- All files created with their full content
+- Key discoveries
+- Any questions or suggestions
+
+Let’s begin Phase 1: Incubation now.
